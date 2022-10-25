@@ -53,9 +53,9 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email/Username or password incorrect");
 
         } else {
-            String tmp = userRepository.findByUsername(logRequest.getUsername()).get(0).getUserID().toString();
+            String userID = userRepository.findByUsername(logRequest.getUsername()).get(0).getUserID().toString();
             Map<String,String> map = new HashMap<>();
-            map.put("token", tmp);
+            map.put("token", userID);
             return ResponseEntity.status(HttpStatus.OK).body(map);
         }
     }
