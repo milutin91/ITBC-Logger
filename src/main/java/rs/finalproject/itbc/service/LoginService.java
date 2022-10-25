@@ -13,7 +13,7 @@ public class LoginService {
     private UserService userService;
 
     public ResponseEntity<?> login(LoginRequest request) {
-        return userService.loginUser(new LoginRequest(request.getUsername(),
+        return userService.loginUser(new LoginRequest(request.getAccount(),
                                                       request.getPassword()));
     }
 }

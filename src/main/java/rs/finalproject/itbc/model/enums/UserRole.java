@@ -1,4 +1,4 @@
-package rs.finalproject.itbc.model;
+package rs.finalproject.itbc.model.enums;
 
 public enum UserRole {
     CLIENT,

@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import rs.finalproject.itbc.controller.register.RegistrationRequest;
 import rs.finalproject.itbc.model.User;
-import rs.finalproject.itbc.model.UserRole;
+import rs.finalproject.itbc.model.enums.UserRole;
 
 @Service
 @AllArgsConstructor

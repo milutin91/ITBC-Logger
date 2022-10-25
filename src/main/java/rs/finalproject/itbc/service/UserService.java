@@ -47,18 +47,29 @@ public class UserService {
     }
 
     public ResponseEntity<?> loginUser(LoginRequest logRequest) {
+        Map<String, String> map = new HashMap<>();
+        if (validator.emailValid(logRequest.getAccount())) {
 
-        if (userRepository.findUserByUsernameAndPassword(logRequest.getUsername(), logRequest.getPassword()).isEmpty()) {
+            if (userRepository.findUserByEmailAndPassword(logRequest.getAccount(), logRequest.getPassword()).isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email/Username or password incorrect");
+            } else {
+                String userID = userRepository.findByEmail(logRequest.getAccount()).get(0).getUserID().toString();
+                System.out.println(userID);
+                map.put("token", userID);
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email/Username or password incorrect");
-
+                System.out.println(map);
+                return ResponseEntity.status(HttpStatus.OK).body(map);
+            }
         } else {
-            String userID = userRepository.findByUsername(logRequest.getUsername()).get(0).getUserID().toString();
-            Map<String,String> map = new HashMap<>();
-            map.put("token", userID);
-            return ResponseEntity.status(HttpStatus.OK).body(map);
+
+            if (userRepository.findUserByUsernameAndPassword(logRequest.getAccount(), logRequest.getPassword()).isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email/Username or password incorrect");
+            } else {
+                String userID = userRepository.findByUsername(logRequest.getAccount()).get(0).getUserID().toString();
+                map.put("token", userID);
+                System.out.println(map);
+                return ResponseEntity.status(HttpStatus.OK).body(map);
+            }
         }
     }
-
-
 }

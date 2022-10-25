@@ -1,7 +1,10 @@
 package rs.finalproject.itbc.model;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 import org.springframework.stereotype.Component;
+import rs.finalproject.itbc.model.enums.UserRole;
+
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -20,7 +23,7 @@ public class User {
     @Id
     @Column(name = "userID")
     @GeneratedValue
-
+    @Type(type="org.hibernate.type.UUIDCharType")
     private UUID userID;
     private String password;
     private String email;
