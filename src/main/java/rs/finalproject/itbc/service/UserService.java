@@ -8,6 +8,9 @@ import rs.finalproject.itbc.controller.login.LoginRequest;
 import rs.finalproject.itbc.model.User;
 import rs.finalproject.itbc.repository.UserRepository;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class UserService {
 
@@ -50,7 +53,10 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email/Username or password incorrect");
 
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+            String tmp = userRepository.findByUsername(logRequest.getUsername()).get(0).getUserID().toString();
+            Map<String,String> map = new HashMap<>();
+            map.put("token", tmp);
+            return ResponseEntity.status(HttpStatus.OK).body(map);
         }
     }
 
