@@ -1,24 +1,22 @@
-package rs.finalproject.itbc.service;
+package rs.finalproject.itbc.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RestController;
 import rs.finalproject.itbc.controller.login.LoginRequest;
 import rs.finalproject.itbc.model.User;
 import rs.finalproject.itbc.repository.UserRepository;
+import rs.finalproject.itbc.service.Validator;
 
-import java.util.HashMap;
-import java.util.Map;
-
-@Service
-public class UserService {
+@RestController
+public class UserController {
 
     private final UserRepository userRepository;
     private final Validator validator;
 
     @Autowired
-    public UserService(UserRepository userRepository, Validator validator) {
+    public UserController(UserRepository userRepository, Validator validator) {
         this.userRepository = userRepository;
         this.validator = validator;
     }
@@ -47,18 +45,15 @@ public class UserService {
     }
 
     public ResponseEntity<?> loginUser(LoginRequest logRequest) {
-        Map<String, String> map = new HashMap<>();
         if (validator.emailValid(logRequest.getAccount())) {
 
             if (userRepository.findUserByEmailAndPassword(logRequest.getAccount(), logRequest.getPassword()).isEmpty()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email/Username or password incorrect");
             } else {
                 String userID = userRepository.findByEmail(logRequest.getAccount()).get(0).getUserID().toString();
-                System.out.println(userID);
-                map.put("token", userID);
+                userRepository.tokens.put("token", userID);
 
-                System.out.println(map);
-                return ResponseEntity.status(HttpStatus.OK).body(map);
+                return ResponseEntity.status(HttpStatus.OK).body(userRepository.tokens);
             }
         } else {
 
@@ -66,9 +61,8 @@ public class UserService {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email/Username or password incorrect");
             } else {
                 String userID = userRepository.findByUsername(logRequest.getAccount()).get(0).getUserID().toString();
-                map.put("token", userID);
-                System.out.println(map);
-                return ResponseEntity.status(HttpStatus.OK).body(map);
+                userRepository.tokens.put("token", userID);
+                return ResponseEntity.status(HttpStatus.OK).body(userRepository.tokens);
             }
         }
     }

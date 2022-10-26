@@ -3,6 +3,7 @@ package rs.finalproject.itbc.service;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import rs.finalproject.itbc.controller.UserController;
 import rs.finalproject.itbc.controller.register.RegistrationRequest;
 import rs.finalproject.itbc.model.User;
 import rs.finalproject.itbc.model.enums.UserRole;
@@ -11,11 +12,11 @@ import rs.finalproject.itbc.model.enums.UserRole;
 @AllArgsConstructor
 public class RegistrationService {
 
-    private UserService userService;
+    private UserController userController;
 
     public ResponseEntity<String> register(RegistrationRequest request) {
 
-        return userService.registerNewUser(new User(request.getUsername(),
+        return userController.registerNewUser(new User(request.getUsername(),
                                                     request.getPassword(),
                                                     request.getEmail(),
                                                     UserRole.CLIENT));

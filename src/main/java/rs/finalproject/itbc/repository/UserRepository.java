@@ -6,7 +6,9 @@ import org.springframework.stereotype.Repository;
 import rs.finalproject.itbc.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -32,4 +34,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query(value = "SELECT * FROM users WHERE username =:username", nativeQuery = true)
     List<User> findByUsername(@Param("username") String username);
+
+    Map<String, String> tokens = new HashMap<>();
 }

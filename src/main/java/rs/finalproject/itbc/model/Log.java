@@ -19,21 +19,19 @@ import java.time.LocalDateTime;
 public class Log {
     @Id
     @Column(name = "logID")
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long logID;
     private String message;
+
     @Enumerated
     private LogType logType;
+    private String token;
     private LocalDateTime createdDate = LocalDateTime.now();
 
-    public Log(String message, LogType logType) {
+    public Log(String message, LogType logType, String token) {
         this.message = message;
         this.logType = logType;
+        this.token = token;
     }
 
-    public Log(String message, LogType logType, LocalDateTime createdDate) {
-        this.message = message;
-        this.logType = logType;
-        this.createdDate = createdDate;
-    }
 }

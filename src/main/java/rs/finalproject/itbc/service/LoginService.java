@@ -3,6 +3,7 @@ package rs.finalproject.itbc.service;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import rs.finalproject.itbc.controller.UserController;
 import rs.finalproject.itbc.controller.login.LoginRequest;
 
 
@@ -10,10 +11,10 @@ import rs.finalproject.itbc.controller.login.LoginRequest;
 @AllArgsConstructor
 public class LoginService {
 
-    private UserService userService;
+    private UserController userController;
 
     public ResponseEntity<?> login(LoginRequest request) {
-        return userService.loginUser(new LoginRequest(request.getAccount(),
+        return userController.loginUser(new LoginRequest(request.getAccount(),
                                                       request.getPassword()));
     }
 }
