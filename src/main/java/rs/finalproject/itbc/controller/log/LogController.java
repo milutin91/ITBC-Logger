@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rs.finalproject.itbc.service.LogService;
-
 import java.time.LocalDateTime;
 
 @RestController
@@ -22,8 +21,14 @@ public class LogController {
     }
 
     @GetMapping("api/logs/search")
-    public ResponseEntity<?> searchLogs(@RequestParam LocalDateTime dateFrom){
-        return logService.searchLogs(dateFrom);
+    public ResponseEntity<?> searchLogs(@RequestParam(required = false) LocalDateTime dateFrom,
+                                        @RequestParam(required = false) LocalDateTime dateTo,
+                                        @RequestParam(required = false) String message,
+                                        @RequestParam(required = false) Integer logType,
+                                        @RequestHeader TokenRequestHeader token){
+
+        return logService.searchLogs(dateFrom, dateTo, message, logType, token);
     }
+
 }
 
