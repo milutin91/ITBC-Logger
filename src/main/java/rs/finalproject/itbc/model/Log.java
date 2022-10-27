@@ -23,7 +23,7 @@ public class Log {
     private Long logID;
     private String message;
 
-    @Enumerated
+    @Enumerated(EnumType.ORDINAL)
     private LogType logType;
     private String token;
     private LocalDateTime createdDate = LocalDateTime.now();

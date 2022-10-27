@@ -8,6 +8,8 @@ import rs.finalproject.itbc.controller.log.LogRequest;
 import rs.finalproject.itbc.controller.log.TokenRequestHeader;
 import rs.finalproject.itbc.model.Log;
 
+import java.time.LocalDateTime;
+
 @Service
 @AllArgsConstructor
 public class LogService {
@@ -16,5 +18,9 @@ public class LogService {
 
     public ResponseEntity<?> logCreate(LogRequest request, TokenRequestHeader requestHeader){
         return loggingController.newLog(new Log(request.getMessage(),request.getLogType(), requestHeader.getToken()), requestHeader);
+    }
+
+    public ResponseEntity<?> searchLogs(LocalDateTime dateFrom) {
+        return loggingController.searchLogs(dateFrom);
     }
 }
