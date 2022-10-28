@@ -1,0 +1,3 @@
+insert into dbo.users (userID, username, password, email, userRole) values ('d0eab5fa-0f9b-49f5-b7b0-655fb3ab4ef0', 'rrichmond0', 'QOn1NhY', 'bsirr0@cloudflare.com', 'CLIENT');
+insert into dbo.users (userID, username, password, email, userRole) values ('75861831-368a-4c0b-86b3-dbccf2507339', 'jkrinks1', 'htKYh7Omv', 'cbenesevich1@constantcontact.com', 'CLIENT');
+insert into dbo.users (userID, username, password, email, userRole) values ('e35467cc-bc08-45ca-ab85-72daa2fc2205', 'seixenberger8', '952TSnuRXg', 'dburras8@hubpages.com', 'ADMIN');

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import rs.finalproject.itbc.controller.login.LoginRequest;
 import rs.finalproject.itbc.model.User;
+import rs.finalproject.itbc.model.enums.UserRole;
 import rs.finalproject.itbc.repository.UserRepository;
 import rs.finalproject.itbc.service.Validator;
 
@@ -51,9 +52,17 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email/Username or password incorrect");
             } else {
                 String userID = userRepository.findByEmail(logRequest.getAccount()).get(0).getUserID().toString();
-                userRepository.tokens.put("token", userID);
+                UserRole tmp = userRepository.findUserRoleByEmail(logRequest.getAccount());
+                if(tmp.equals(UserRole.ADMIN)){
+                    userRepository.adminTokens.put("token", userID);
+                    System.out.println(userRepository.adminTokens);
 
-                return ResponseEntity.status(HttpStatus.OK).body(userRepository.tokens);
+                    return ResponseEntity.status(HttpStatus.OK).body(userRepository.adminTokens);
+                }else {
+                    userRepository.tokens.put("token", userID);
+
+                    return ResponseEntity.status(HttpStatus.OK).body(userRepository.tokens);
+                }
             }
         } else {
 
@@ -61,8 +70,16 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email/Username or password incorrect");
             } else {
                 String userID = userRepository.findByUsername(logRequest.getAccount()).get(0).getUserID().toString();
-                userRepository.tokens.put("token", userID);
-                return ResponseEntity.status(HttpStatus.OK).body(userRepository.tokens);
+                UserRole tmp = userRepository.findUserRoleByUsername(logRequest.getAccount());
+                if(tmp.equals(UserRole.ADMIN)){
+                    userRepository.adminTokens.put("token", userID);
+                    System.out.println(userRepository.adminTokens);
+
+                    return ResponseEntity.status(HttpStatus.OK).body(userRepository.adminTokens);
+                }else {
+                    userRepository.tokens.put("token", userID);
+                    return ResponseEntity.status(HttpStatus.OK).body(userRepository.tokens);
+                }
             }
         }
     }

@@ -15,9 +15,9 @@ public class LogController {
     private LogService logService;
 
     @PostMapping("api/logs/create")
-    public ResponseEntity<?> logCreate(@RequestBody LogRequest request, @RequestHeader TokenRequestHeader token) {
+    public ResponseEntity<?> logCreate(@RequestBody LogRequest request, @RequestHeader TokenRequestHeader Authorization) {
 
-        return logService.logCreate(request, token);
+        return logService.logCreate(request, Authorization);
     }
 
     @GetMapping("api/logs/search")
@@ -25,9 +25,9 @@ public class LogController {
                                         @RequestParam(required = false) LocalDateTime dateTo,
                                         @RequestParam(required = false) String message,
                                         @RequestParam(required = false) Integer logType,
-                                        @RequestHeader TokenRequestHeader token){
+                                        @RequestHeader TokenRequestHeader Authorization){
 
-        return logService.searchLogs(dateFrom, dateTo, message, logType, token);
+        return logService.searchLogs(dateFrom, dateTo, message, logType, Authorization);
     }
 
 }
