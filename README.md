@@ -1,6 +1,14 @@
 # ITBC-Logger
-Final project - ITBC
-Client
+___
+Logger application where users can be registered, logged in and create logs. Implementation of Rest API 
+with Springboot, JPA, Microsoft SQL Server Management Studio database.
+
+## Technologies used in project:
+* Java version 19
+* Spring Boot 2.7.4
+* Microsoft SQL Server Management Studio 18
+___
+## Endpoints
   1. Register
         * HTTP Method: POST
         * Endpoint URL: /api/clients/register
@@ -38,9 +46,9 @@ Client
              * 400 - Bad Request
                * Email/Username or password incorrect
   3. Create log
-         * HTTP Method: POST
-         * Endpoint URL: /api/logs/create
-         * Request body:
+        * HTTP Method: POST
+        * Endpoint URL: /api/logs/create
+        * Request body:
          
               {
               "message": "string",
@@ -120,3 +128,10 @@ Admin
             * Correct token, but not admin
           * 403 - Forbidden
             * Incorrect token
+___
+## Installation and settup:
+* Open project with Java IDE
+* Open your SQL server
+* In java project on the path (src/main/resources/static/SQLQuery-Creating DB and Tables.sql) you can create Database and tables
+* You will need to set a username and password for created database and set it up in src/main/resources/application.properties
+* After that application is ready to run
