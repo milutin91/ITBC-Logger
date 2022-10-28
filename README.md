@@ -1,5 +1,5 @@
 # ITBC-Logger
-___
+
 Logger application where users can be registered, logged in and create logs. Implementation of Rest API 
 with Springboot, JPA, Microsoft SQL Server Management Studio database.
 
@@ -7,7 +7,7 @@ with Springboot, JPA, Microsoft SQL Server Management Studio database.
 * Java version 19
 * Spring Boot 2.7.4
 * Microsoft SQL Server Management Studio 18
-___
+
 ## Endpoints
   1. Register
         * HTTP Method: POST
@@ -128,7 +128,7 @@ Admin
             * Correct token, but not admin
           * 403 - Forbidden
             * Incorrect token
-___
+
 ## Installation and settup:
 * Open project with Java IDE
 * Open your SQL server
