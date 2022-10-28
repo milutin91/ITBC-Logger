@@ -1,6 +1,0 @@
-insert into dbo.logs (message, logtype, token, createdDate) values ('penatibus et magnis dis parturient montes nascetur ridiculus mus etiam vel', 1, 'D0EAB5FA-0F9B-49F5-B7B0-655FB3AB4EF0', '2019-05-14 17:39:50');
-insert into dbo.logs (message, logtype, token, createdDate) values ('semper rutrum nulla nunc purus phasellus in felis donec semper', 0, 'D0EAB5FA-0F9B-49F5-B7B0-655FB3AB4EF0', '2021-11-24 18:29:40');
-insert into dbo.logs (message, logtype, token, createdDate) values ('porta volutpat quam pede lobortis ligula sit amet eleifend pede libero quis', 1, 'E35467CC-BC08-45CA-AB85-72DAA2FC2205', '2022-4-30 9:15:34');
-insert into dbo.logs (message, logtype, token, createdDate) values ('quam sapien varius ut blandit non interdum in ante vestibulum', 0, 'E35467CC-BC08-45CA-AB85-72DAA2FC2205',  '2022-8-29 23:46:01');
-insert into dbo.logs (message, logtype, token, createdDate) values ('lectus in quam fringilla rhoncus mauris enim leo rhoncus sed vestibulum sit amet cursus id turpis integer aliquet', 2, '75861831-368A-4C0B-86B3-DBCCF2507339', '2022-8-24 13:21:01');
-insert into dbo.logs (message, logtype, token, createdDate) values ('in lacus curabitur at ipsum ac tellus semper interdum mauris ullamcorper', 2, '75861831-368A-4C0B-86B3-DBCCF2507339', '2022-9-24 07:28:02');
