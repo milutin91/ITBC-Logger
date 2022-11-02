@@ -1,16 +1,17 @@
 package rs.finalproject.itbc.repository;
 
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import rs.finalproject.itbc.model.DTO.ClientInfoResponseDTO;
 import rs.finalproject.itbc.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import rs.finalproject.itbc.model.enums.UserRole;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+
+import java.util.*;
 
 
 @Repository
@@ -18,9 +19,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     boolean existsUserByUsername(String username);
     boolean existsUserByEmail(String email);
 
-//    @Query(value = "SELECT * FROM users WHERE username =:username and password =:password", nativeQuery = true)
-//    List<User> findUserByUsernameAndPassword(@Param("username") String username,
-//                                             @Param("password") String password);
 
     List<User> findUserByUsernameAndPassword(String username,
                                              String password);
@@ -40,6 +38,12 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query(value = "SELECT * FROM users WHERE username =:username", nativeQuery = true)
     List<User> findByUsername(@Param("username") String username);
+
+    @Query("select new rs.finalproject.itbc.model.DTO.ClientInfoResponseDTO(u.userID, u.username, u.email) from User u " +
+            "where userRole <> :userRole")
+        List<ClientInfoResponseDTO> findAllClients(@Param("userRole") UserRole userRole);
+
+
 
     Map<String, String> tokens = new HashMap<>();
     Map<String, String> adminTokens = new HashMap<>();

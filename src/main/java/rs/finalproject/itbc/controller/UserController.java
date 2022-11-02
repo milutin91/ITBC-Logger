@@ -5,10 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import rs.finalproject.itbc.controller.login.LoginRequest;
+import rs.finalproject.itbc.model.DTO.ClientInfoResponseDTO;
 import rs.finalproject.itbc.model.User;
 import rs.finalproject.itbc.model.enums.UserRole;
 import rs.finalproject.itbc.repository.UserRepository;
 import rs.finalproject.itbc.service.Validator;
+
+import java.util.*;
 
 @RestController
 public class UserController {
@@ -82,5 +85,14 @@ public class UserController {
                 }
             }
         }
+    }
+
+
+
+    public ResponseEntity<?> getAllClients() {
+        List<ClientInfoResponseDTO> users = userRepository.findAllClients(UserRole.ADMIN);
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 }
