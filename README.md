@@ -8,6 +8,29 @@ with Springboot, JPA, Microsoft SQL Server Management Studio database.
 * Spring Boot 2.7.4
 * Microsoft SQL Server Management Studio 18
 
+## Business Requirements, MVP (Minimum Viable Product)
+
+### User
+1. The user can register
+   * Username, email, password
+2. The user can retrieve his "key"
+   * Using username, email, and password
+3. The user can enter the log 
+   * Message
+   * Log type (ERROR, WARNING, INFO)
+   * Created date
+4. User can search logs
+   * By time (from - to)
+   * By text in the log message
+   * By log type (ERROR, WARNING, INFO)
+   * Or any combination
+
+### Admin
+1. There is an admin account (or admin key)
+2. Admin can see all users
+3. Admin can see the number of logs for each user
+4. The admin can change the user's password at his request
+
 ## Endpoints
   1. Register
         * HTTP Method: POST

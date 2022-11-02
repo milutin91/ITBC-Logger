@@ -10,11 +10,10 @@ import rs.finalproject.itbc.service.LoginService;
 @AllArgsConstructor
 public class LoginController {
 
-
     private LoginService loginService;
 
     @PostMapping
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequest request){
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest request) {
         return loginService.login(request);
     }
 }

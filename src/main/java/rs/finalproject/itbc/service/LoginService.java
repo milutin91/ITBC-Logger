@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import rs.finalproject.itbc.controller.UserController;
 import rs.finalproject.itbc.controller.login.LoginRequest;
 
-
 @Service
 @AllArgsConstructor
 public class LoginService {
@@ -14,7 +13,6 @@ public class LoginService {
     private UserController userController;
 
     public ResponseEntity<?> login(LoginRequest request) {
-        return userController.loginUser(new LoginRequest(request.getAccount(),
-                                                      request.getPassword()));
+        return userController.loginUser(new LoginRequest(request.getAccount(), request.getPassword()));
     }
 }

@@ -19,11 +19,9 @@ import java.time.LocalDateTime;
 public class Log {
     @Id
     @Column(name = "logID")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long logID;
     private String message;
-
-
     private Integer logType;
     private String token;
     private LocalDateTime createdDate = LocalDateTime.now();
@@ -33,5 +31,4 @@ public class Log {
         this.logType = logType;
         this.token = token;
     }
-
 }

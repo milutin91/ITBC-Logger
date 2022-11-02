@@ -1,7 +1,6 @@
 package rs.finalproject.itbc.service;
 
 import org.springframework.stereotype.Service;
-import rs.finalproject.itbc.model.enums.LogType;
 
 import java.util.regex.Pattern;
 
@@ -24,5 +23,4 @@ public class Validator {
 
         return Pattern.compile(regex).matcher(password).matches();
     }
-
 }

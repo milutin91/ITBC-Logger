@@ -4,13 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import org.springframework.stereotype.Component;
-
 import rs.finalproject.itbc.model.enums.UserRole;
 
 import javax.persistence.*;
 import java.util.UUID;
-
-
 
 @Getter
 @Setter
@@ -27,7 +24,7 @@ public class User {
     @Id
     @Column(name = "userID")
     @GeneratedValue
-    @Type(type="org.hibernate.type.UUIDCharType")
+    @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID userID;
     @JsonIgnore
     private String password;
@@ -45,5 +42,4 @@ public class User {
         this.email = email;
         this.userRole = userRole;
     }
-
 }

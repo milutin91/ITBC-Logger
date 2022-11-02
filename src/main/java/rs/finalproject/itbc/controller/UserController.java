@@ -3,7 +3,6 @@ package rs.finalproject.itbc.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import rs.finalproject.itbc.controller.admin.PasswordChangeRequest;
 import rs.finalproject.itbc.controller.log.TokenRequestHeader;
@@ -38,7 +37,8 @@ public class UserController {
         }
 
         if (!validator.passwordValid(user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("password at least 8 characters and one letter and one number");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("password at least 8 characters and one letter and one number");
         }
 
         if (userRepository.existsUserByUsername(user.getUsername())) {
@@ -54,17 +54,16 @@ public class UserController {
     public ResponseEntity<?> loginUser(LoginRequest logRequest) {
         if (validator.emailValid(logRequest.getAccount())) {
 
-            if (userRepository.findUserByEmailAndPassword(logRequest.getAccount(), logRequest.getPassword()).isEmpty()) {
+            if (userRepository.findUserByEmailAndPassword(logRequest.getAccount(),
+                    logRequest.getPassword()).isEmpty()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email/Username or password incorrect");
             } else {
                 String userID = userRepository.findByEmail(logRequest.getAccount()).get(0).getUserID().toString();
                 UserRole tmp = userRepository.findUserRoleByEmail(logRequest.getAccount());
-                if(tmp.equals(UserRole.ADMIN)){
+                if (tmp.equals(UserRole.ADMIN)) {
                     userRepository.adminTokens.put("token", userID);
-                    System.out.println(userRepository.adminTokens);
-
                     return ResponseEntity.status(HttpStatus.OK).body(userRepository.adminTokens);
-                }else {
+                } else {
                     userRepository.tokens.put("token", userID);
 
                     return ResponseEntity.status(HttpStatus.OK).body(userRepository.tokens);
@@ -72,17 +71,16 @@ public class UserController {
             }
         } else {
 
-            if (userRepository.findUserByUsernameAndPassword(logRequest.getAccount(), logRequest.getPassword()).isEmpty()) {
+            if (userRepository.findUserByUsernameAndPassword(logRequest.getAccount(),
+                                                             logRequest.getPassword()).isEmpty()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email/Username or password incorrect");
             } else {
                 String userID = userRepository.findByUsername(logRequest.getAccount()).get(0).getUserID().toString();
                 UserRole tmp = userRepository.findUserRoleByUsername(logRequest.getAccount());
-                if(tmp.equals(UserRole.ADMIN)){
+                if (tmp.equals(UserRole.ADMIN)) {
                     userRepository.adminTokens.put("token", userID);
-                    System.out.println(userRepository.adminTokens);
-
                     return ResponseEntity.status(HttpStatus.OK).body(userRepository.adminTokens);
-                }else {
+                } else {
                     userRepository.tokens.put("token", userID);
                     return ResponseEntity.status(HttpStatus.OK).body(userRepository.tokens);
                 }
@@ -91,24 +89,26 @@ public class UserController {
     }
 
     public ResponseEntity<?> getAllClients(TokenRequestHeader token) {
-        if(userRepository.tokens.containsValue(token.getToken())) {
+        if (userRepository.tokens.containsValue(token.getToken())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Correct token, but not admin");
         }
-        if(userRepository.adminTokens.containsValue(token.getToken())) {
+        if (userRepository.adminTokens.containsValue(token.getToken())) {
             List<ClientInfoResponseDTO> users = userRepository.findAllClients(UserRole.ADMIN);
             return ResponseEntity.status(HttpStatus.OK).body(users);
         }
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Incorrect token");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Incorrect token");
     }
 
-    public ResponseEntity<?> changeClientPassword(String id, PasswordChangeRequest passwordChangeRequest, TokenRequestHeader token) {
-        if(userRepository.tokens.containsValue(token.getToken())) {
+    public ResponseEntity<?> changeClientPassword(String id,
+                                                  PasswordChangeRequest passwordChangeRequest,
+                                                  TokenRequestHeader token) {
+        if (userRepository.tokens.containsValue(token.getToken())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Correct token, but not admin");
         }
-        if(userRepository.adminTokens.containsValue(token.getToken())) {
+        if (userRepository.adminTokens.containsValue(token.getToken())) {
             userRepository.updateClientPassword(passwordChangeRequest.getPassword(), UUID.fromString(id));
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No content");
-        }else{
+        } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Incorrect token");
         }
     }

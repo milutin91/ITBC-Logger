@@ -17,8 +17,8 @@ public class RegistrationService {
     public ResponseEntity<String> register(RegistrationRequest request) {
 
         return userController.registerNewUser(new User(request.getUsername(),
-                                                    request.getPassword(),
-                                                    request.getEmail(),
-                                                    UserRole.CLIENT));
+                                                       request.getPassword(),
+                                                       request.getEmail(),
+                                                       UserRole.CLIENT));
     }
 }

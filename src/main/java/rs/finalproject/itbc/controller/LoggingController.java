@@ -9,10 +9,10 @@ import rs.finalproject.itbc.controller.log.TokenRequestHeader;
 import rs.finalproject.itbc.model.Log;
 import rs.finalproject.itbc.repository.LogRepository;
 import rs.finalproject.itbc.repository.UserRepository;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-
 
 @RestController
 public class LoggingController {
@@ -28,19 +28,19 @@ public class LoggingController {
 
     public ResponseEntity<?> newLog(Log log, @RequestHeader TokenRequestHeader token) {
 
-        int temp = log.getLogType();
-        if(temp > 2) {
+        int logType = log.getLogType();
+        if (logType > 2) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect logType");
         }
 
-        if(log.getMessage().length() > 1024){
+        if (log.getMessage().length() > 1024) {
             return ResponseEntity.status(HttpStatus.REQUEST_ENTITY_TOO_LARGE).body("Message should be less than 1024");
         }
 
-        if(UserRepository.tokens.containsValue(token.getToken())){
+        if (UserRepository.tokens.containsValue(token.getToken())) {
             logRepository.save(log);
             return ResponseEntity.status(HttpStatus.CREATED).body("Created");
-        }else{
+        } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect token");
         }
     }
@@ -53,176 +53,144 @@ public class LoggingController {
                                         @RequestHeader TokenRequestHeader token) {
         List<?> response;
 
-        if(!userRepository.tokens.containsValue(token.getToken())){
+        if (!userRepository.tokens.containsValue(token.getToken())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect token");
         }
 
-        if(dateTo == null & dateFrom == null & Objects.equals(message, "") & logType == null){
+        if (dateTo == null & dateFrom == null & Objects.equals(message, "") & logType == null) {
 
             response = logRepository.searchAllLogsByToken(token.getToken());
-            System.out.println("0");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
 
-        if(dateTo == null & Objects.equals(message, "") & logType == null){
+        if (dateTo == null & Objects.equals(message, "") & logType == null) {
 
             response = logRepository.searchDateFrom(token.getToken(), dateFrom);
-            System.out.println("1");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
 
-        if(dateFrom == null & Objects.equals(message, "") & logType == null){
+        if (dateFrom == null & Objects.equals(message, "") & logType == null) {
 
             response = logRepository.searchDateTo(token.getToken(), dateTo);
-            System.out.println("2");
-
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
 
-        if(dateFrom == null & dateTo == null & logType == null){
+        if (dateFrom == null & dateTo == null & logType == null) {
 
             response = logRepository.searchMessage(token.getToken(), message);
-            System.out.println("3");
-
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
 
-        if(dateFrom == null & dateTo == null & Objects.equals(message, "")){
+        if (dateFrom == null & dateTo == null & Objects.equals(message, "")) {
 
-            if(logType > 2 || logType < 0){
+            if (logType > 2 || logType < 0) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid logType");
-            }else {
+            } else {
                 response = logRepository.searchLogType(token.getToken(), logType);
-                System.out.println("4");
-
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             }
         }
 
-        if(Objects.equals(message, "") & logType == null){
+        if (Objects.equals(message, "") & logType == null) {
 
-            if(dateFrom.isAfter(dateTo)){
+            if (dateFrom.isAfter(dateTo)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid dates");
-            }else {
+            } else {
                 response = logRepository.searchDateFromTo(token.getToken(), dateFrom, dateTo);
-                System.out.println("5");
-
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             }
         }
 
-        if(dateTo == null & logType == null){
+        if (dateTo == null & logType == null) {
 
             response = logRepository.searchDateFromAndMessage(token.getToken(), dateFrom, message);
-            System.out.println("6");
-
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
 
-        if(dateTo == null & Objects.equals(message, "")){
+        if (dateTo == null & Objects.equals(message, "")) {
 
-            if(logType > 2 || logType < 0){
+            if (logType > 2 || logType < 0) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid logType");
-            }else {
+            } else {
                 response = logRepository.searchDateFromAndLogtype(token.getToken(), dateFrom, logType);
-                System.out.println("7");
-
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             }
         }
 
-        if(dateFrom == null & logType == null){
+        if (dateFrom == null & logType == null) {
 
             response = logRepository.searchDateToAndMessage(token.getToken(), dateTo, message);
-            System.out.println("8");
-
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
 
-        if(dateFrom == null & Objects.equals(message, "")){
+        if (dateFrom == null & Objects.equals(message, "")) {
 
-            if(logType > 2 || logType < 0){
+            if (logType > 2 || logType < 0) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid logType");
-            }else {
+            } else {
                 response = logRepository.searchDateToAndLogtype(token.getToken(), dateTo, logType);
-                System.out.println("9");
-
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             }
         }
 
-        if(dateFrom == null & dateTo == null){
+        if (dateFrom == null & dateTo == null) {
 
-            if(logType > 2 || logType < 0){
+            if (logType > 2 || logType < 0) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid logType");
-            }else {
+            } else {
                 response = logRepository.searchMessageAndLogtype(token.getToken(), message, logType);
-                System.out.println("10");
-
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             }
         }
 
-        if(logType == null){
+        if (logType == null) {
 
-            if(dateFrom.isAfter(dateTo)){
+            if (dateFrom.isAfter(dateTo)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid dates");
-            }else {
+            } else {
                 response = logRepository.searchDateFromDateToAndMessage(token.getToken(), dateFrom, dateTo, message);
-                System.out.println("11");
-
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             }
         }
 
-        if(Objects.equals(message, "")){
+        if (Objects.equals(message, "")) {
 
-            if(logType > 2 || logType < 0){
+            if (logType > 2 || logType < 0) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid logType");
-            }else if(dateFrom.isAfter(dateTo)){
+            } else if (dateFrom.isAfter(dateTo)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid dates");
-            }else {
+            } else {
                 response = logRepository.searchDateFromDateToAndLogtype(token.getToken(), dateFrom, dateTo, logType);
-                System.out.println("12");
-
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             }
         }
 
-        if(dateTo == null){
+        if (dateTo == null) {
 
-            if(logType > 2 || logType < 0){
+            if (logType > 2 || logType < 0) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid logType");
-            }else {
+            } else {
                 response = logRepository.searchDateFromMessageAndLogtype(token.getToken(), dateFrom, message, logType);
-                System.out.println("13");
-
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             }
         }
 
-        if(dateFrom == null){
+        if (dateFrom == null) {
 
-            if(logType > 2 || logType < 0){
+            if (logType > 2 || logType < 0) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid logType");
-            }else {
+            } else {
                 response = logRepository.searchDateToMessageAndLogtype(token.getToken(), dateTo, message, logType);
-                System.out.println("14");
-
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             }
         }
-        if(logType > 2 || logType < 0){
+        if (logType > 2 || logType < 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid logType");
-        }else if(dateFrom.isAfter(dateTo)){
+        } else if (dateFrom.isAfter(dateTo)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid dates");
-        }else {
+        } else {
             response = logRepository.searchByAllParams(token.getToken(), dateFrom, dateTo, message, logType);
-            System.out.println("15");
-
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
-
     }
-
 }

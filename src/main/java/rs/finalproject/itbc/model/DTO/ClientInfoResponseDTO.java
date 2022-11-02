@@ -8,4 +8,5 @@ public class ClientInfoResponseDTO {
     UUID userID;
     String username;
     String email;
+    Long logCount;
 }

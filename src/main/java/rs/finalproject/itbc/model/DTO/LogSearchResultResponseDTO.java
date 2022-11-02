@@ -1,7 +1,6 @@
 package rs.finalproject.itbc.model.DTO;
 
 import lombok.*;
-import rs.finalproject.itbc.model.enums.LogType;
 
 import java.time.LocalDateTime;
 

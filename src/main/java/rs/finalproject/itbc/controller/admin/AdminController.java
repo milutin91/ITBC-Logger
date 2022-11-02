@@ -17,13 +17,13 @@ public class AdminController {
     private AdminService adminService;
 
     @GetMapping("api/clients")
-    public ResponseEntity<?> getAllClients(@RequestHeader
-    TokenRequestHeader Authorization) {
+    public ResponseEntity<?> getAllClients(@RequestHeader TokenRequestHeader Authorization) {
         return adminService.getAllClients(Authorization);
     }
 
     @PatchMapping("api/clients/{clientId}/reset-password")
-    public ResponseEntity<?> changeClientPassword(@PathVariable(value = "clientId") String id, @RequestBody PasswordChangeRequest passwordChangeRequest,
+    public ResponseEntity<?> changeClientPassword(@PathVariable(value = "clientId") String id,
+                                                  @RequestBody PasswordChangeRequest passwordChangeRequest,
                                                   @RequestHeader TokenRequestHeader Authorization) {
         return adminService.changeClientPassword(id, passwordChangeRequest, Authorization);
     }
