@@ -3,7 +3,9 @@ package rs.finalproject.itbc.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import rs.finalproject.itbc.controller.admin.PasswordChangeRequest;
 import rs.finalproject.itbc.controller.log.TokenRequestHeader;
 import rs.finalproject.itbc.controller.login.LoginRequest;
 import rs.finalproject.itbc.model.DTO.ClientInfoResponseDTO;
@@ -88,11 +90,8 @@ public class UserController {
         }
     }
 
-
-
     public ResponseEntity<?> getAllClients(TokenRequestHeader token) {
         if(userRepository.tokens.containsValue(token.getToken())) {
-            List<ClientInfoResponseDTO> users = userRepository.findAllClients(UserRole.ADMIN);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Correct token, but not admin");
         }
         if(userRepository.adminTokens.containsValue(token.getToken())) {
@@ -100,5 +99,17 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).body(users);
         }
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Incorrect token");
+    }
+
+    public ResponseEntity<?> changeClientPassword(String id, PasswordChangeRequest passwordChangeRequest, TokenRequestHeader token) {
+        if(userRepository.tokens.containsValue(token.getToken())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Correct token, but not admin");
+        }
+        if(userRepository.adminTokens.containsValue(token.getToken())) {
+            userRepository.updateClientPassword(passwordChangeRequest.getPassword(), UUID.fromString(id));
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No content");
+        }else{
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Incorrect token");
+        }
     }
 }

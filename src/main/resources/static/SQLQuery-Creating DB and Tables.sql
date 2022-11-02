@@ -1,9 +1,5 @@
 CREATE DATABASE ITBCLogger;
 
-CREATE TABLE ITBCLogger.dbo.tokens (
-	token UniqueIdentifier PRIMARY KEY
-);
-
 CREATE TABLE ITBCLogger.dbo.users (
 	userID UniqueIdentifier PRIMARY KEY,
 	username varchar(255) NOT NULL,

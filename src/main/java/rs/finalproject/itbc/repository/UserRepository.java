@@ -1,10 +1,12 @@
 package rs.finalproject.itbc.repository;
 
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import org.springframework.transaction.annotation.Transactional;
 import rs.finalproject.itbc.model.DTO.ClientInfoResponseDTO;
 import rs.finalproject.itbc.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -39,10 +41,14 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query(value = "SELECT * FROM users WHERE username =:username", nativeQuery = true)
     List<User> findByUsername(@Param("username") String username);
 
-    @Query("select new rs.finalproject.itbc.model.DTO.ClientInfoResponseDTO(u.userID, u.username, u.email) from User u " +
-            "where userRole <> :userRole")
+    @Query("SELECT new rs.finalproject.itbc.model.DTO.ClientInfoResponseDTO(u.userID, u.username, u.email) FROM User u " +
+            "WHERE userRole <> :userRole")
         List<ClientInfoResponseDTO> findAllClients(@Param("userRole") UserRole userRole);
 
+    @Transactional
+    @Modifying
+    @Query("UPDATE User SET password = :password WHERE userID = :userID")
+    void updateClientPassword(@Param("password") String password, @Param("userID") UUID id);
 
 
     Map<String, String> tokens = new HashMap<>();
