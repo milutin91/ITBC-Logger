@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import rs.finalproject.itbc.controller.log.TokenRequestHeader;
 import rs.finalproject.itbc.controller.login.LoginRequest;
 import rs.finalproject.itbc.model.DTO.ClientInfoResponseDTO;
 import rs.finalproject.itbc.model.User;
@@ -89,10 +90,15 @@ public class UserController {
 
 
 
-    public ResponseEntity<?> getAllClients() {
-        List<ClientInfoResponseDTO> users = userRepository.findAllClients(UserRole.ADMIN);
-
-
-        return ResponseEntity.status(HttpStatus.OK).body(users);
+    public ResponseEntity<?> getAllClients(TokenRequestHeader token) {
+        if(userRepository.tokens.containsValue(token.getToken())) {
+            List<ClientInfoResponseDTO> users = userRepository.findAllClients(UserRole.ADMIN);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Correct token, but not admin");
+        }
+        if(userRepository.adminTokens.containsValue(token.getToken())) {
+            List<ClientInfoResponseDTO> users = userRepository.findAllClients(UserRole.ADMIN);
+            return ResponseEntity.status(HttpStatus.OK).body(users);
+        }
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Incorrect token");
     }
 }

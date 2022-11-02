@@ -19,7 +19,7 @@ public class LogService {
     private LoggingController loggingController;
 
     public ResponseEntity<?> logCreate(LogRequest request, TokenRequestHeader requestHeader){
-        return loggingController.newLog(new Log(request.getMessage(),request.getLogType(), requestHeader.getToken()), requestHeader);
+        return loggingController.newLog(new Log(request.getMessage(), request.getLogType().ordinal(), requestHeader.getToken()), requestHeader);
     }
 
     public ResponseEntity<?> searchLogs(LocalDateTime dateFrom, LocalDateTime dateTo, String message, Integer logType, TokenRequestHeader token) {

@@ -23,12 +23,12 @@ public class Log {
     private Long logID;
     private String message;
 
-    @Enumerated(EnumType.ORDINAL)
-    private LogType logType;
+
+    private Integer logType;
     private String token;
     private LocalDateTime createdDate = LocalDateTime.now();
 
-    public Log(String message, LogType logType, String token) {
+    public Log(String message, Integer logType, String token) {
         this.message = message;
         this.logType = logType;
         this.token = token;
